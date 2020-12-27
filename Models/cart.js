@@ -25,7 +25,14 @@ module.exports = class cart {
             }
         })
         /*now checking if the product already exits in the cart */
-        const prodIndex = cart.products.findIndex(prod => prod.id === id);
+        const prodIndex = cart.products.findIndex(prod => {
+            console.log("id is " + id + " prodid is " + prod.id);
+            if(prod.id === id)
+            {
+                return true;
+            }
+        });
+        console.log("product index is:" + prodIndex);
         /*if prodIndex will be -1 then product is not found in the cart then we need to add new product to the cart else just update the existing product qty by 1 */
         if(prodIndex == -1)
         {
@@ -38,7 +45,6 @@ module.exports = class cart {
 
         /*updating the price of the cart */
         cart.totalPrice = cart.totalPrice + productPrice;
-
 
         /*now writting the updated cart to the file system */
         fs.writeFile(p,JSON.stringify(cart),(err) => {

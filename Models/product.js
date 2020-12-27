@@ -42,12 +42,11 @@ module.exports =  class Product{
 
     static findById(id,cb){
         getProductsFromFile(products => {
-            console.log('id recieved in findbyId funciton is:' + id + ' and its type is ' + typeof id);
             const prod = products.find(p => {
                 if(p.id === id) 
                 {
                     return true;
-                }
+                } 
             });
             cb(prod);
         })

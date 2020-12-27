@@ -8,12 +8,12 @@ exports.getCart = (req,res,next) => {
     })
   }
 
-exports.postCart = (req,res,nxt) => {
-  const prodId = req.body.prodId;
-  console.log('type pf prodId from postCart is:' + typeof prodId + ' and its value is:' + prodId);
+exports.postCart = (req,res,next) => {
+  const prodId = req.body.prodId.trim();
   /*here we have to insert the prodId into the cart */
   Product.findById(prodId,product => {
-    Cart.addProduct(prodId,product.price);
+    Cart.addProduct(product.id,product.price);
+    res.redirect('/');
   })
 }
 
@@ -32,13 +32,18 @@ exports.postCart = (req,res,nxt) => {
   }
 
   exports.getViewProductPage = (req,res,next) => {
-    const productId = req.params.productId;
+    const productId = req.params.productId.trim();
     Product.findById(productId,result => {
+      if(result == undefined)
+      {
+        res.status(404).render('404.ejs',{ path: req.originalUrl,pageTitle: 'Page Not Found' });
+        return;
+      }
       res.render('shop/product-detail.ejs',{
         product: result,
         pageTitle: 'Your Product',
         path: '/products',
-        title: 'title'
+        title: result.title
       });
     });
   }

@@ -22,10 +22,11 @@
                             <p class="product__description"><%= product.description %></p>
                         </div>
                         <div class="card_actions"> 
-                            <a href='products/<%= product.id %>' class="btn btn-success btn-block">View Product</a>
+                            
                             <form action="/cart" class="p-2 text-center" method="POST">
+                                <input type="hidden" name="prodId" value="<%=product.id%> ">
                                 <button type="submit" class="btn btn-success d-inline">Add to Cart</button>
-                                <input type="hidden" name="prodId" value="<%= product.id %> ">
+                                <a href='products/<%=product.id%>' class="btn btn-success btn-block">View Product</a>
                             </form>
                         </div>
                     </article>
