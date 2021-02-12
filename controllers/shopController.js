@@ -19,7 +19,6 @@ exports.getCart = (req,res,next) => {
         })
         //now in cartProducts we have the product matching in the cart and products array
         //so we have to render the product
-        console.log(cartProducts);
         res.render('shop/cart',{
           path: '/cart',
           pageTitle: 'Cart',
@@ -35,6 +34,15 @@ exports.postCart = (req,res,next) => {
   Product.findById(prodId,product => {
     Cart.addProduct(product.id,product.price);
     res.redirect('/');
+  })
+}
+
+exports.deleteCartItem = (req,res,next) => {
+  const prodId = req.body.productId.trim();
+  console.log(prodId);
+  Product.findById(prodId,product => {
+    Cart.deleteProduct(prodId,product.price);
+    res.redirect('/cart');
   })
 }
 
