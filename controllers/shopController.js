@@ -9,7 +9,7 @@ exports.getCart = (req,res,next) => {
   }
 
 exports.postCart = (req,res,next) => {
-  const prodId = req.body.prodId.trim();
+  const prodId = req.body.productId.trim();
   /*here we have to insert the prodId into the cart */
   Product.findById(prodId,product => {
     Cart.addProduct(product.id,product.price);
