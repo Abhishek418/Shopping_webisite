@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs');
+const db = require('../util/database');
 const { type } = require('os');
 const Cart = require('./cart');
 const p = path.join(path.dirname(process.mainModule.filename),'data','products.json');
@@ -29,32 +30,7 @@ module.exports =  class Product{
         
     }
     save(){
-        getProductsFromFile(products => {
-            if(this.id)
-            {
-                const existingProductIndex = products.findIndex((prod) => {
-                    return this.id === prod.id;
-                });
-                const updatedProducts = [...products];
-                updatedProducts[existingProductIndex] = this;
-                fs.writeFile(p,JSON.stringify(updatedProducts),(err) => {
-                    if(err){
-                        console.log(err);
-                    }
-                })
-            }
-            else
-            {
-                this.id = Math.random().toString();
-                products.push(this);
-                fs.writeFile(p,JSON.stringify(products),(err) => {
-                    if(err){
-                        console.log(err);
-                    }
-                })
-            }
-            
-        })
+        return db.execute('INSERT INTO products (title,price,description,imageUrl) VALUES(?,?,?,?)',[this.title,this.price,this.description,this.imageUrl]);
     }
     static deleteById(id)
     {
@@ -72,19 +48,11 @@ module.exports =  class Product{
             })
         })
     }
-    static getAllProducts(cb){
-        getProductsFromFile(cb);
+    static getAllProducts(){
+        return db.execute('SELECT * FROM products');
     }
 
-    static findById(id,cb){
-        getProductsFromFile(products => {
-            const prod = products.find(p => {
-                if(p.id === id) 
-                {
-                    return true;
-                } 
-            });
-            cb(prod);
-        })
+    static findById(id){
+        return db.execute('SELECT * FROM products WHERE id = ?',[id]);
     }
 }

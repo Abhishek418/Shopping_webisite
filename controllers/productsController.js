@@ -2,8 +2,8 @@ const Product = require('../Models/product');
 
 
 
-exports.getShopPage = (req, res, next) => {
-  Product.getAllProducts((products) => {
+exports.getShopPage = (req, res, next) =>{
+  Product.getAllProducts().then(([products,details]) => {
     res.render('shop/product-list', {
       prods: products,
       pageTitle: 'All Products',
@@ -11,13 +11,13 @@ exports.getShopPage = (req, res, next) => {
       hasProducts: products.length > 0,
       activeShop: true,
       productCSS: true
-    });
-  });
-  }
+  })
+  }).catch(err => console.log(err))
+}
 
 
 exports.getIndexPage = (req,res,next) => {
-  Product.getAllProducts((products) => {
+  Product.getAllProducts().then(([products,details]) => {
     res.render('shop/index', {
       prods: products,
       pageTitle: 'All Products',
@@ -26,7 +26,7 @@ exports.getIndexPage = (req,res,next) => {
       activeShop: true,
       productCSS: true
     });
-  });
+  }).then(err => console.log(err));
 }
 
 

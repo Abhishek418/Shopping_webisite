@@ -13,10 +13,6 @@ app.set('views', 'views');
 const adminRouter = require('./routes/admin');
 const shopRouter = require('./routes/shop');
 
-db.execute('SELECT * FROM products').then(result => {
-  console.log(result[0]);
-}).catch(err => console.log(err));
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 

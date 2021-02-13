@@ -13,9 +13,8 @@ exports.getAddProductsPage = (req, res, next) => {
   };
 
 exports.postProducts = (req, res, next) => {
-    const product = new Product(null,req.body.title,req.body.price,req.body.description,req.body.imageUrl,);
-    product.save();
-    res.redirect('/');
+    const product = new Product(null,req.body.title,req.body.price,req.body.description,req.body.imageUrl);
+    product.save().then(() => res.redirect('/')).catch(err => console.log(err));
   };
 
 exports.editProduct = (req,res,next) => {
@@ -61,14 +60,14 @@ exports.deleteProduct = (req,res,next) => {
 }
 
 exports.getAdminProducts = (req,res,next) => {
-  Product.getAllProducts((products) => {
+  Product.getAllProducts().then(([result,details]) => {
     res.render('admin/product-list',{
-      prods: products,
+      prods: result,
       pageTitle: 'Admin Products',
       path: '/admin/products',
-      hasProducts: products.length > 0,
+      hasProducts: true,
       activeShop: true,
       productCSS: true
     })
-  })
+  }).catch(err => console.log(err));
 }

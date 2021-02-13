@@ -62,19 +62,14 @@ exports.deleteCartItem = (req,res,next) => {
 
   exports.getViewProductPage = (req,res,next) => {
     const productId = req.params.productId.trim();
-    Product.findById(productId,result => {
-      if(result == undefined)
-      {
-        res.status(404).render('404.ejs',{ path: req.originalUrl,pageTitle: 'Page Not Found' });
-        return;
-      }
+    Product.findById(productId).then( ([result,details]) => {
       res.render('shop/product-detail.ejs',{
-        product: result,
+        product: result[0]  ,
         pageTitle: 'Your Product',
         path: '/products',
         title: result.title
       });
-    });
+    }).catch(err => next(err));
   }
 
 
