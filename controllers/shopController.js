@@ -62,9 +62,9 @@ exports.deleteCartItem = (req,res,next) => {
 
   exports.getViewProductPage = (req,res,next) => {
     const productId = req.params.productId.trim();
-    Product.findById(productId).then( ([result,details]) => {
+    Product.findByPk(productId).then((result) => {
       res.render('shop/product-detail.ejs',{
-        product: result[0]  ,
+        product: result,
         pageTitle: 'Your Product',
         path: '/products',
         title: result.title
