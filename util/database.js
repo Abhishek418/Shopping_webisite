@@ -13,7 +13,8 @@
 const Sequelize = require('sequelize');
 const sequelize = new Sequelize('node_complete','root','123abc',{
     dialect: 'mysql',
-    host: 'localhost'
+    host: 'localhost',
+    logging: false
 })
 
 module.exports = sequelize;

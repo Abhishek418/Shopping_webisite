@@ -6,6 +6,22 @@
     <%- include('../includes/navigation.ejs') %>
 
     <main>
-        <h1>nothing there....</h1>
+        <% if (!orders) { %>
+            <h1>nothing is there</h1>
+
+        <% } else { %>
+            <ul>
+                <% orders.forEach(order => { %>
+                    <%= order.id %> 
+                    <li>
+                        <% order.products.forEach(product => {%>
+                            <li><%= product.title %> </li>
+                            <li><%= product.price %> </li>
+                            <li><%= product.orderItem.qty %> </li>
+                        <% }) %>  
+                    </li>
+                <% }) %>
+            </ul>  
+        <% } %> 
     </main>
 <%- include('../includes/end.ejs') %>
